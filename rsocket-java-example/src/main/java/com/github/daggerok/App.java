@@ -11,6 +11,7 @@ public class App {
   public static void main(String[] args) {
     final SeContainerInitializer initializer =
         SeContainerInitializer.newInstance()
+                              .disableDiscovery()
                               .setClassLoader(App.class.getClassLoader())
                               .addPackages(true, BeanManager.class);
 
