@@ -1,10 +1,3 @@
-//pluginManagement {
-//  repositories {
-//    gradlePluginPortal()
-//    maven { url = uri("https://plugins.gradle.org/m2/") }
-//    mavenCentral()
-//  }
-//}
 pluginManagement {
   repositories {
     gradlePluginPortal()
@@ -22,6 +15,6 @@ pluginManagement {
   }
 }
 include(
-    ":rsocket-java-example",
-    ":spring-webflux-rsocker-example"
+    ":rsocker-server",
+    ":gateway-client"
 )

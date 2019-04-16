@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: rsocker-server
+  output:
+    ansi:
+      enabled: always

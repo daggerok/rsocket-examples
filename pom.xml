@@ -5,6 +5,7 @@
 
   <modules>
     <module>rsocket-java-example</module>
+    <module>spring-webflux-rsocker-example</module>
   </modules>
 
   <modelVersion>4.0.0</modelVersion>
