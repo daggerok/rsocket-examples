@@ -1,50 +1,12 @@
-# main-starter
-Java starter using Gradle / Maven build tools.
+# spring-webflux-rsocker-example
+Spring WebFlux + RSocket
 
-## getting started
-
-```bash
-git clone -b spring-boot --depth=1 https://github.com/daggerok/main-starter.git
-cd main-starter
-rm -rf .git
-```
-
-## maven
-
-_fat jar_
+TODO: add more samples...
 
 ```bash
-./mvnw package
-java -jar target/*.jar
-```
-
-_project sources archive_
-
-find archive with all project sources in target folder too:
-
-```bash
-./mvnw assembly:single -Dassembly.ignoreMissingDescriptor
-unzip -d target/sources target/*-sources.zip
-unzip -d target/default target/*-src.zip
-```
-JVM (java / kotlin) starter using Gradle / Maven build tools.
-
-## gradle
-
-_fat jar_
-
-```bash
-./gradlew build
-java -jar build/libs/*.jar
-```
-
-_project sources archive_
-
-to create archive with all project sources use gradle _sources_ task, like so:
-
-```bash
-./gradlew sources
-unzip -d build/sources build/*.zip
+./mvnw -f spring-webflux-rsocker-example/rsocker-server/pom.xml spring-boot:run
+./mvnw -f spring-webflux-rsocker-example/gateway-client/pom.xml spring-boot:run
+http :8080/api/v1/hello/max
 ```
 
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_

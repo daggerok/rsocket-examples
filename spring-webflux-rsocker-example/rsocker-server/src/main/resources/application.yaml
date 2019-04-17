@@ -4,3 +4,8 @@ spring:
   output:
     ansi:
       enabled: always
+  rsocket:
+    server:
+      port: 1234
+  main:
+    lazy-initialization: true
