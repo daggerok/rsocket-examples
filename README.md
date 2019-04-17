@@ -1,30 +1,8 @@
 # rsocket-examples
 Java RSockert client
 
-## maven
-
-_fat jar_
-
-```bash
-./mvnw
-java -jar ./rsocket-java-example/target/rsocket-java-examples-1.0-SNAPSHOT-all.jar
-```
-
-## gradle
-
-_fat jar_
-
-```bash
-./gradlew
-java -jar ./rsocket-java-example/build/libs/rsocket-java-example-1.0-SNAPSHOT-all.jar
-```
-
-_installDist_
-
-```bash
-./gradlew installDist
-bash ./rsocket-java-example/build/install/rsocket-java-example/bin/rsocket-java-example
-```
+* [Java plain RSocket](./rsocket-java-example/)
+* [RSocket with Spring Boot](./spring-webflux-rsocker-example/)
 
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
 
@@ -32,3 +10,5 @@ resources:
 
 - see [GitHub: rsocket/rsocket-java](https://github.com/rsocket/rsocket-java)
 - read [Weld SE](https://docs.jboss.org/weld/reference/3.1.0.Final/en-US/html_single/#weld-se)
+- see [YouTube: Spring Tips: RSocket Messaging in Spring Boot 2.2](https://www.youtube.com/watch?v=BxHqeq58xrE)
+- see [YouTube: Spring Tips: RSocket](https://www.youtube.com/watch?time_continue=1617&v=GDIDSzZLjjg)
