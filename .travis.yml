@@ -19,9 +19,12 @@ addons:
       - wget
       - bash
       - curl
-before_script:
+before_install:
   - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
   - stop_any 80 1234 8080 5432
+before_script:
+  - ./gradlew --stop || echo 'oops...'
+  - killall -9 java || echo 'oops'
 jobs:
   include:
     # maven
