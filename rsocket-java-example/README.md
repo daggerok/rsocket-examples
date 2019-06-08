@@ -31,4 +31,4 @@ NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://gi
 resources:
 
 - see [GitHub: rsocket/rsocket-java](https://github.com/rsocket/rsocket-java)
-- read [Weld SE](https://docs.jboss.org/weld/reference/3.1.0.Final/en-US/html_single/#weld-se)
+- read [Weld SE](https://docs.jboss.org/weld/reference/3.1.1.Final/en-US/html_single/#weld-se)

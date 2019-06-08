@@ -5,7 +5,7 @@ plugins {
   java
   kotlin("jvm") version "1.3.31"
   kotlin("plugin.spring") version "1.3.31"
-  id("io.franzbecker.gradle-lombok") version "3.0.0"
+  id("io.franzbecker.gradle-lombok") version "3.1.0"
   id("com.github.ben-manes.versions") version "0.21.0"
 }
 
