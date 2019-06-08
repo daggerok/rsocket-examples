@@ -7,7 +7,7 @@ _fat jar_
 
 ```bash
 ./mvnw
-java -jar ./rsocket-java-example/target/rsocket-java-examples-1.0-SNAPSHOT-all.jar
+java -jar ./rsocket-java-example/target/rsocket-java-examples-1.1-SNAPSHOT-all.jar
 ```
 
 ## gradle
@@ -16,7 +16,7 @@ _fat jar_
 
 ```bash
 ./gradlew
-java -jar ./rsocket-java-example/build/libs/rsocket-java-example-1.0-SNAPSHOT-all.jar
+java -jar ./rsocket-java-example/build/libs/rsocket-java-example-1.1-SNAPSHOT-all.jar
 ```
 
 _installDist_
