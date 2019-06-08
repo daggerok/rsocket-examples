@@ -85,28 +85,21 @@ jobs:
     - stage: openjdk8
       jdk: openjdk8
       name: "Maven rsocket-playground"
-      script:
-        - cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-playground
-        - java -jar rsocket-playground/target/*-SNAPSHOT.jar
+      script: cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-playground
     - stage: openjdk8
       jdk: openjdk8
       name: "Gradle rsocket-playground"
-      script:
-        - cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
-        - java -jar rsocket-playground/build/libs/*-SNAPSHOT.jar
+      script: cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
+
     # openjdk11
     - stage: openjdk11
       jdk: openjdk11
       name: "Maven rsocket-playground"
-      script:
-        - cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-playground
-        - java -jar rsocket-playground/target/*-SNAPSHOT.jar
+      script: cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-playground
     - stage: openjdk11
       jdk: openjdk11
       name: "Gradle rsocket-playground"
-      script:
-        - cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
-        - java -jar rsocket-playground/build/libs/*-SNAPSHOT.jar
+      script: cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
 cache:
   directories:
     - ~/.gradle

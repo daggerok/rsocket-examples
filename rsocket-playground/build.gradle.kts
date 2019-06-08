@@ -32,8 +32,14 @@ lombok {
 }
 
 dependencies {
-  implementation("org.springframework.boot:spring-boot-starter")
+  implementation("io.rsocket:rsocket-core:${Globals.rsocketVersion}") {
+    exclude(group = "org.slf4j")
+  }
+  implementation("io.rsocket:rsocket-transport-netty:${Globals.rsocketVersion}")
+
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("io.projectreactor:reactor-test")
 
   implementation("io.vavr:vavr:${Globals.vavrVersion}")
   annotationProcessor("org.projectlombok:lombok")

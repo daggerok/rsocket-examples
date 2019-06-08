@@ -25,8 +25,9 @@
     <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 
     <!-- mvn versions:display-property-updates -->
-    <vavr.version>1.0.0-alpha-2</vavr.version>
+    <vavr.version>0.10.0</vavr.version>
     <junit.version>4.13-beta-3</junit.version>
+    <rsocket.version>0.12.2-RC3</rsocket.version>
     <junit-jupiter.version>5.5.0-RC1</junit-jupiter.version>
     <spring-boot.version>${project.parent.version}</spring-boot.version>
     <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
@@ -57,13 +58,34 @@
 
   <dependencies>
     <dependency>
+      <groupId>io.rsocket</groupId>
+      <artifactId>rsocket-core</artifactId>
+      <version>${rsocket.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.rsocket</groupId>
+      <artifactId>rsocket-transport-netty</artifactId>
+      <version>${rsocket.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.projectreactor</groupId>
+      <artifactId>reactor-test</artifactId>
     </dependency>
 
     <dependency>
