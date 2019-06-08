@@ -7,12 +7,11 @@ import io.rsocket.transport.netty.client.TcpClientTransport;
 import io.rsocket.transport.netty.server.TcpServerTransport;
 import io.rsocket.util.DefaultPayload;
 import lombok.extern.log4j.Log4j2;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -23,18 +22,17 @@ import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
-// Junit 5 (Jupiter):
+// Junit 4:
 
 @Log4j2
-@ExtendWith(SpringExtension.class)
-@DisplayName("RSocket request stream test")
+@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class RSocketRequestResponseTest {
+public class RSocketChannelTest {
 
   private static final int port = 7777;
 
-  @BeforeEach
-  void producer() {
+  @Before
+  public void producer() {
     RSocketFactory.receive()
                   .resumeCleanupOnKeepAlive()
                   .acceptor((payload, receiverSocket) -> {
@@ -57,7 +55,7 @@ class RSocketRequestResponseTest {
   }
 
   @Test
-  void test() {
+  public void test() {
     StepVerifier.create(
         RSocketFactory.connect()
                       .transport(TcpClientTransport.create(port))
