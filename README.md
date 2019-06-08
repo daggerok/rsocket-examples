@@ -1,4 +1,4 @@
-# rsocket-examples
+# rsocket-examples [![Build Status](https://travis-ci.org/daggerok/rsocket-examples.svg?branch=master)](https://travis-ci.org/daggerok/rsocket-examples)
 Java RSockert client
 
 * [Java plain RSocket](./rsocket-java-example/)

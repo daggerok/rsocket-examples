@@ -2,7 +2,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
   java
-  id("io.franzbecker.gradle-lombok") //version "2.1"
+  id("io.franzbecker.gradle-lombok") version "3.0.0"
   id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT" apply false
   id("io.spring.dependency-management") version "1.0.7.RELEASE" apply false
 }
@@ -14,16 +14,19 @@ tasks.withType(Wrapper::class.java) {
 }
 
 allprojects {
+  apply(plugin = "io.franzbecker.gradle-lombok")
+  lombok {
+    val lombokVersion: String by project
+    version = lombokVersion
+  }
+
   repositories {
     mavenCentral()
     maven { url = uri("https://repo.spring.io/milestone/") }
     maven { url = uri("https://repo.spring.io/snapshot/") }
   }
-}
 
-lombok {
-  val lombokVersion: String by project
-  version = lombokVersion
+  defaultTasks("clean", "build")
 }
 
 subprojects {
@@ -74,5 +77,3 @@ tasks {
     }
   }
 }
-
-defaultTasks("clean", "build")

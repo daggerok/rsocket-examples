@@ -1,0 +1,63 @@
+notifications:
+  email: false
+git:
+  quiet: true
+  depth: 1
+env:
+  global:
+    - TERM=dumb
+language: java
+jdk: openjdk8
+install: true
+addons:
+  apt:
+    update: true
+    packages:
+      - jq
+      - sudo
+      - lsof
+      - wget
+      - bash
+      - curl
+before_script:
+  - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+  - stop_any 80 1234 8080 5432
+jobs:
+  include:
+    # maven
+    - stage: maven
+      name: "Java 8 Maven rsocker-java-example"
+      jdk: openjdk8
+      script:
+        - cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-java-example package
+        - java -jar rsocket-java-example/target/rsocket-java-example-*-SNAPSHOT-all.jar
+    - stage: maven
+      name: "Java 8 Maven spring-webflux-rsocker-example"
+      jdk: openjdk8
+      script:
+        - cd $TRAVIS_BUILD_DIR && ./mvnw -f ./spring-webflux-rsocker-example/pom.xml
+        - java -jar ./spring-webflux-rsocker-example/rsocker-server/target/rsocker-server-*-SNAPSHOT.jar &
+        - java -jar ./spring-webflux-rsocker-example/gateway-client/target/gateway-client-*-SNAPSHOT.jar &
+        - wait_for 1234 8080
+        - curl -sS 127.0.0.1:8080/api/v1/hello/max | jq '.'
+        - stop_any 80 1234 8080
+    # gradle
+    - stage: gradle
+      name: "Java 8 Gradle rsocker-java-example"
+      script:
+        - cd $TRAVIS_BUILD_DIR && ./gradlew rsocket-java-example:fatJar
+        - java -jar rsocket-java-example/build/libs/rsocket-java-example-*-SNAPSHOT-all.jar
+    - stage: gradle
+      name: "Java 8 Gradle spring-webflux-rsocker-example"
+      jdk: openjdk8
+      script:
+        - cd $TRAVIS_BUILD_DIR && ./gradlew -b spring-webflux-rsocker-example/build.gradle.kts
+        - java -jar ./spring-webflux-rsocker-example/rsocker-server/build/libs/rsocker-server-*-SNAPSHOT.jar &
+        - java -jar ./spring-webflux-rsocker-example/gateway-client/build/libs/gateway-client-*-SNAPSHOT.jar &
+        - wait_for 1234 8080
+        - curl -sS 127.0.0.1:8080/api/v1/hello/max | jq '.'
+        - stop_any 80 1234 8080
+cache:
+  directories:
+    - ~/.gradle
+    - ~/.m2

@@ -22,6 +22,6 @@ pluginManagement {
   }
 }
 include(
-    ":rsocket-java-example",
-    ":spring-webflux-rsocker-example"
+    "rsocket-java-example"/*,
+    "spring-webflux-rsocker-example"*/
 )

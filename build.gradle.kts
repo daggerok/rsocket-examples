@@ -5,7 +5,7 @@ plugins {
   java
   kotlin("jvm") version "1.3.30"
   kotlin("plugin.spring") version "1.3.30"
-  id("io.franzbecker.gradle-lombok") version "2.1"
+  id("io.franzbecker.gradle-lombok") version "3.0.0"
 }
 
 tasks.withType(Wrapper::class.java) {
@@ -15,19 +15,21 @@ tasks.withType(Wrapper::class.java) {
 }
 
 val lombokVersion: String by project
-
-lombok {
-  version = lombokVersion
-}
-
 val javaVersion = JavaVersion.VERSION_1_8
 
-java {
-  sourceCompatibility = javaVersion
-  targetCompatibility = javaVersion
-}
-
 allprojects {
+  apply(plugin = "java")
+  java {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+  }
+
+  apply(plugin = "io.franzbecker.gradle-lombok")
+  lombok {
+    version = lombokVersion
+  }
+
+  apply(plugin = "kotlin")
   tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
       freeCompilerArgs += "-Xjsr305=strict"
@@ -38,17 +40,6 @@ allprojects {
   repositories {
     mavenCentral()
   }
-
-  tasks.withType<Test> {
-    useJUnitPlatform()
-    testLogging {
-      showExceptions = true
-      showStandardStreams = true
-      events(PASSED, SKIPPED, FAILED)
-    }
-  }
-
-  apply(plugin = "java")
 
   val junit4Version: String by project
   val assertkVersion: String by project
@@ -70,6 +61,15 @@ allprojects {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
     testRuntime("org.junit.platform:junit-platform-launcher")
+  }
+
+  tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+      showExceptions = true
+      showStandardStreams = true
+      events(PASSED, SKIPPED, FAILED)
+    }
   }
 }
 

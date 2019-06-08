@@ -15,6 +15,6 @@ pluginManagement {
   }
 }
 include(
-    ":rsocker-server",
-    ":gateway-client"
+    "rsocker-server",
+    "gateway-client"
 )

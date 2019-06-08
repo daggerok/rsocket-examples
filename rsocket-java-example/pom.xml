@@ -10,7 +10,7 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>rsocket-java-examples</artifactId>
+  <artifactId>rsocket-java-example</artifactId>
 
   <properties>
     <mainClass>com.github.daggerok.App</mainClass>
