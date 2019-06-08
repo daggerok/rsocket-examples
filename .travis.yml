@@ -23,11 +23,10 @@ addons:
       - zip
 before_install:
   # gradle
-  - rm -rf $HOME/.sdkman
   - curl -s "https://get.sdkman.io" | bash
   - source "$HOME/.sdkman/bin/sdkman-init.sh"
   - sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
-  - sdk selfupdate force || echo 'oops...'
+  - sdk selfupdate force
   - sdk use gradle 5.5-rc-2
   # wait_for / stop_any
   - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
@@ -111,6 +110,7 @@ jobs:
         - java -jar rsocket-playground/build/libs/*-SNAPSHOT.jar
 cache:
   directories:
+    - ~/.sdkman
     - ~/.gradle
     - ~/.m2
   packages: true
