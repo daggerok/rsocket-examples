@@ -23,16 +23,12 @@ addons:
       - zip
 before_install:
   # gradle
+  - rm -rf $HOME/.sdkman
   - curl -s "https://get.sdkman.io" | bash
   - source "$HOME/.sdkman/bin/sdkman-init.sh"
-  - sdk selfupdate
-  - touch "$HOME/.sdkman/etc/config"
   - sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
+  - sdk selfupdate force || echo 'oops...'
   - sdk use gradle 5.5-rc-2
-  - sdk install gradle
-  - mkdir -p "$HOME/.sdkman/etc"
-  - sdk use gradle
-  - source "$HOME/.sdkman/bin/sdkman-init.sh"
   # wait_for / stop_any
   - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
   - stop_any 80 1234 8080 5432
