@@ -26,13 +26,19 @@ jobs:
   include:
     # maven
     - stage: maven
-      name: "Java 8 Maven rsocker-java-example"
+      name: "Maven updates"
+      jdk: openjdk8
+      script:
+        - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
+        - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -f ./spring-webflux-rsocker-example/pom.xml
+    - stage: maven
+      name: "Maven rsocker-java-example"
       jdk: openjdk8
       script:
         - cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-java-example package
         - java -jar rsocket-java-example/target/rsocket-java-example-*-SNAPSHOT-all.jar
     - stage: maven
-      name: "Java 8 Maven spring-webflux-rsocker-example"
+      name: "Maven spring-webflux-rsocker-example"
       jdk: openjdk8
       script:
         - cd $TRAVIS_BUILD_DIR && ./mvnw -f ./spring-webflux-rsocker-example/pom.xml
@@ -43,12 +49,17 @@ jobs:
         - stop_any 80 1234 8080
     # gradle
     - stage: gradle
-      name: "Java 8 Gradle rsocker-java-example"
+      name: "Gradle updates"
+      script:
+        - cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
+        - cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release -b spring-webflux-rsocker-example/build.gradle.kts
+    - stage: gradle
+      name: "Gradle rsocker-java-example"
       script:
         - cd $TRAVIS_BUILD_DIR && ./gradlew rsocket-java-example:fatJar
         - java -jar rsocket-java-example/build/libs/rsocket-java-example-*-SNAPSHOT-all.jar
     - stage: gradle
-      name: "Java 8 Gradle spring-webflux-rsocker-example"
+      name: "Gradle spring-webflux-rsocker-example"
       jdk: openjdk8
       script:
         - cd $TRAVIS_BUILD_DIR && ./gradlew -b spring-webflux-rsocker-example/build.gradle.kts
