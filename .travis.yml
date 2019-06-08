@@ -39,6 +39,8 @@ jobs:
       jdk: openjdk8
       name: "Maven updates"
       script:
+        - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-maven.xml
+                 $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
         - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -f ./spring-webflux-rsocker-example/pom.xml
         - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -f ./rsocket-playground/pom.xml
@@ -46,6 +48,8 @@ jobs:
       jdk: openjdk8
       name: "Gradle updates"
       script:
+        - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
+                 $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
         #- cd $TRAVIS_BUILD_DIR && ./gradlew --stop || echo 'oops...'
         - cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release -b spring-webflux-rsocker-example/build.gradle.kts --no-daemon
@@ -54,18 +58,24 @@ jobs:
       jdk: openjdk8
       name: "Maven rsocker-java-example"
       script:
+        - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-maven.xml
+                 $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-java-example package
         - java -jar rsocket-java-example/target/rsocket-java-example-*-SNAPSHOT-all.jar
     - stage: openjdk8
       jdk: openjdk8
       name: "Gradle rsocker-java-example"
       script:
+        - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
+                 $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./gradlew rsocket-java-example:fatJar
         - java -jar rsocket-java-example/build/libs/rsocket-java-example-*-SNAPSHOT-all.jar
     - stage: openjdk8
       jdk: openjdk8
       name: "Maven spring-webflux-rsocker-example"
       script:
+        - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-maven.xml
+                 $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./mvnw -f ./spring-webflux-rsocker-example/pom.xml
         - java -jar ./spring-webflux-rsocker-example/rsocker-server/target/rsocker-server-*-SNAPSHOT.jar &
         - java -jar ./spring-webflux-rsocker-example/gateway-client/target/gateway-client-*-SNAPSHOT.jar &
@@ -76,6 +86,8 @@ jobs:
       jdk: openjdk8
       name: "Gradle spring-webflux-rsocker-example"
       script:
+        - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
+                 $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./gradlew -b spring-webflux-rsocker-example/build.gradle.kts
         - java -jar ./spring-webflux-rsocker-example/rsocker-server/build/libs/rsocker-server-*-SNAPSHOT.jar &
         - java -jar ./spring-webflux-rsocker-example/gateway-client/build/libs/gateway-client-*-SNAPSHOT.jar &
@@ -85,11 +97,17 @@ jobs:
     - stage: openjdk8
       jdk: openjdk8
       name: "Maven rsocket-playground"
-      script: cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-playground
+      script:
+        - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-maven.xml
+                 $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
+        - cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-playground
     - stage: openjdk8
       jdk: openjdk8
       name: "Gradle rsocket-playground"
-      script: cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
+      script:
+        - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
+                 $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
+        - cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
 
     # openjdk11
     - stage: openjdk11
@@ -99,7 +117,10 @@ jobs:
     - stage: openjdk11
       jdk: openjdk11
       name: "Gradle rsocket-playground"
-      script: cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
+      script:
+        - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
+                 $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
+        - cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
 cache:
   directories:
     - ~/.gradle

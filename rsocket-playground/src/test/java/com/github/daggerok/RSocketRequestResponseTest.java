@@ -31,12 +31,15 @@ import static java.lang.String.format;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class RSocketRequestResponseTest {
 
-  private static final int port = 7777;
+  private static final int port = 7772;
+  private static final int expectedCount = 3;
 
   @BeforeEach
   void producer() {
     RSocketFactory.receive()
                   .resumeCleanupOnKeepAlive()
+                  // do not forget about error handling!
+                  .errorConsumer(e -> log.error("receiver oops: {}", e.getLocalizedMessage()))
                   .acceptor((payload, receiverSocket) -> {
                     final String name = payload.getDataUtf8();
                     final Stream<String> stream = Stream.generate(() -> format("Hello, %s at %s!",
@@ -47,7 +50,9 @@ class RSocketRequestResponseTest {
                         return Flux.fromStream(stream)
                                    .delayElements(Duration.ofMillis(1234))
                                    .map(String::toString)
-                                   .map(DefaultPayload::create);
+                                   .map(DefaultPayload::create)
+                                   .take(expectedCount)/* // we should not forget cleanup resources, never!
+                                   .doFinally(signalType -> receiverSocket.dispose())*/;
                       }
                     });
                   })
@@ -60,14 +65,16 @@ class RSocketRequestResponseTest {
   void test() {
     StepVerifier.create(
         RSocketFactory.connect()
+                      //// do not forget about error handling!
+                      //.errorConsumer(e -> log.error("requester oops: {}", e.getLocalizedMessage()))
                       .transport(TcpClientTransport.create(port))
                       .start()
                       .flatMapMany(senderSocket -> senderSocket.requestStream(DefaultPayload.create("ololo-trololo!"))
-                                                               .take(3)
-                                                               .map(Payload::getDataUtf8))
-                      .doOnNext(log::info))
-                .expectNextCount(3)
+                                                               .map(Payload::getDataUtf8)
+                                                               .doOnNext(log::info)/* // do not forget cleanup / close everything!
+                                                               .doOnComplete(senderSocket::dispose)*/
+                      ))
+                .expectNextCount(expectedCount)
                 .verifyComplete();
-
   }
 }
