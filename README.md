@@ -1,6 +1,7 @@
 # rsocket-examples [![Build Status](https://travis-ci.org/daggerok/rsocket-examples.svg?branch=master)](https://travis-ci.org/daggerok/rsocket-examples)
 Java RSockert client
 
+* [RSocket spring-mvc style communication](./es-rsocket/)
 * [Java plain RSocket](./rsocket-java-example/)
 * [RSocket with Spring Boot](./spring-webflux-rsocker-example/)
 
