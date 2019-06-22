@@ -21,7 +21,21 @@ addons:
       - curl
       - unzip
       - zip
+      - python3-dev
+      - python3-pip
+      - python3-six
+      - python3-setuptools
+dist: xenial
+python: 3
 before_install:
+  - export PATH=$HOME/.local/bin:$PATH
+  - pip3 install --user $(whoami) --upgrade pip >/dev/null # pip3 -> pip
+  - pip install --user $(whoami) --upgrade docker-compose httpie >/dev/null 2>&1
+  - http --version --debug
+  - docker-compose -v
+  #- export CHROME_BIN=/usr/bin/google-chrome
+  #- export DISPLAY=:99.0
+  #- sh -e /etc/init.d/xvfb start
   # gradle
   - curl -s "https://get.sdkman.io" | bash
   - sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
@@ -35,7 +49,41 @@ before_install:
 #  - killall -9 java || echo 'oops'
 jobs:
   include:
-    - stage: openjdk8
+    - stage: test
+      jdk: openjdk8
+      name: test es-rsocket maven
+      script:
+        - cp -Rf $TRAVIS_BUILD_DIR/es-rsocket/es-server/src/main/resources/logback-maven.xml
+                 $TRAVIS_BUILD_DIR/es-rsocket/es-server/src/main/resources/logback.xml
+        - cp -Rf $TRAVIS_BUILD_DIR/es-rsocket/gateway-client/src/main/resources/logback-maven.xml
+                 $TRAVIS_BUILD_DIR/es-rsocket/gateway-client/src/main/resources/logback.xml
+        - cd $TRAVIS_BUILD_DIR && ./mvnw -f ./es-rsocket/pom.xml
+        - java -jar $TRAVIS_BUILD_DIR/es-rsocket/es-server/target/*.jar &
+        - wait_for 12345
+        - java -jar $TRAVIS_BUILD_DIR/es-rsocket/gateway-client/target/*.jar &
+        - wait_for 12345
+        - http :8080/api/v1/add-command data:='{"trololo":"ololo","aggregateId":"83e24ff7-38fb-4d55-9399-9dbe5a926bd1"}' aggregateId=83e24ff7-38fb-4d55-9399-9dbe5a926bd1
+        - http :8080/api/v1/add-command data:='{"trololo":"ololo","aggregateId":"83e24ff7-38fb-4d55-9399-9dbe5a926bd1"}' aggregateId=83e24ff7-38fb-4d55-9399-9dbe5a926bd1
+        - http --stream :8080/api/v1/stream-commands/83e24ff7-38fb-4d55-9399-9dbe5a926bd1
+        - stop_any 12345 8080 80
+    - stage: test
+      jdk: openjdk8
+      name: test es-rsocket gradle
+      script:
+        - cp -Rf $TRAVIS_BUILD_DIR/es-rsocket/es-server/src/main/resources/logback-gradle.xml
+                 $TRAVIS_BUILD_DIR/es-rsocket/es-server/src/main/resources/logback.xml
+        - cp -Rf $TRAVIS_BUILD_DIR/es-rsocket/gateway-client/src/main/resources/logback-gradle.xml
+                 $TRAVIS_BUILD_DIR/es-rsocket/gateway-client/src/main/resources/logback.xml
+        - cd $TRAVIS_BUILD_DIR && ./gradlew -b ./es-rsocket/build.gradle.kts
+        - java -jar $TRAVIS_BUILD_DIR/es-rsocket/es-server/build/libs/*.jar &
+        - wait_for 12345
+        - java -jar $TRAVIS_BUILD_DIR/es-rsocket/gateway-client/build/libs/*.jar &
+        - wait_for 8080
+        - http :8080/api/v1/add-command data:='{"trololo":"ololo","aggregateId":"83e24ff7-38fb-4d55-9399-9dbe5a926bd1"}' aggregateId=83e24ff7-38fb-4d55-9399-9dbe5a926bd1
+        - http :8080/api/v1/add-command data:='{"trololo":"ololo","aggregateId":"83e24ff7-38fb-4d55-9399-9dbe5a926bd1"}' aggregateId=83e24ff7-38fb-4d55-9399-9dbe5a926bd1
+        - http --stream :8080/api/v1/stream-commands/83e24ff7-38fb-4d55-9399-9dbe5a926bd1
+        - stop_any 12345 8080 80
+    - stage: test
       jdk: openjdk8
       name: "Maven updates"
       script:
@@ -44,7 +92,7 @@ jobs:
         - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
         - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -f ./spring-webflux-rsocker-example/pom.xml
         - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -f ./rsocket-playground/pom.xml
-    - stage: openjdk8
+    - stage: test
       jdk: openjdk8
       name: "Gradle updates"
       script:
@@ -54,7 +102,7 @@ jobs:
         #- cd $TRAVIS_BUILD_DIR && ./gradlew --stop || echo 'oops...'
         - cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release -b spring-webflux-rsocker-example/build.gradle.kts --no-daemon
         - cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release -b rsocket-playground/build.gradle.kts
-    - stage: openjdk8
+    - stage: test
       jdk: openjdk8
       name: "Maven rsocker-java-example"
       script:
@@ -62,7 +110,7 @@ jobs:
                  $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-java-example package
         - java -jar rsocket-java-example/target/rsocket-java-example-*-SNAPSHOT-all.jar
-    - stage: openjdk8
+    - stage: test
       jdk: openjdk8
       name: "Gradle rsocker-java-example"
       script:
@@ -70,7 +118,7 @@ jobs:
                  $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./gradlew rsocket-java-example:fatJar
         - java -jar rsocket-java-example/build/libs/rsocket-java-example-*-SNAPSHOT-all.jar
-    - stage: openjdk8
+    - stage: test
       jdk: openjdk8
       name: "Maven spring-webflux-rsocker-example"
       script:
@@ -82,7 +130,7 @@ jobs:
         - wait_for 1234 8080
         - curl -sS 127.0.0.1:8080/api/v1/hello/max | jq '.'
         - stop_any 80 1234 8080
-    - stage: openjdk8
+    - stage: test
       jdk: openjdk8
       name: "Gradle spring-webflux-rsocker-example"
       script:
@@ -94,14 +142,14 @@ jobs:
         - wait_for 1234 8080
         - curl -sS 127.0.0.1:8080/api/v1/hello/max | jq '.'
         - stop_any 80 1234 8080
-    - stage: openjdk8
+    - stage: test
       jdk: openjdk8
       name: "Maven rsocket-playground"
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-maven.xml
                  $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-playground
-    - stage: openjdk8
+    - stage: test
       jdk: openjdk8
       name: "Gradle rsocket-playground"
       script:
@@ -110,11 +158,11 @@ jobs:
         - cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
 
     # openjdk11
-    - stage: openjdk11
+    - stage: test
       jdk: openjdk11
       name: "Maven rsocket-playground"
       script: cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-playground
-    - stage: openjdk11
+    - stage: test
       jdk: openjdk11
       name: "Gradle rsocket-playground"
       script:
@@ -126,3 +174,4 @@ cache:
     - ~/.gradle
     - ~/.m2
   packages: true
+  pip: true

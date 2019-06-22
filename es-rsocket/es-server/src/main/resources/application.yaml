@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: es-server
+  output:
+    ansi:
+      enabled: always
+  rsocket:
+    server:
+      port: 12345
+  main:
+    lazy-initialization: true
