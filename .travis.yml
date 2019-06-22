@@ -61,7 +61,7 @@ jobs:
         - java -jar $TRAVIS_BUILD_DIR/es-rsocket/es-server/target/*.jar &
         - wait_for 12345
         - java -jar $TRAVIS_BUILD_DIR/es-rsocket/gateway-client/target/*.jar &
-        - wait_for 12345
+        - wait_for 8080
         - http :8080/api/v1/add-command data:='{"trololo":"ololo","aggregateId":"83e24ff7-38fb-4d55-9399-9dbe5a926bd1"}' aggregateId=83e24ff7-38fb-4d55-9399-9dbe5a926bd1
         - http :8080/api/v1/add-command data:='{"trololo":"ololo","aggregateId":"83e24ff7-38fb-4d55-9399-9dbe5a926bd1"}' aggregateId=83e24ff7-38fb-4d55-9399-9dbe5a926bd1
         - http --stream :8080/api/v1/stream-commands/83e24ff7-38fb-4d55-9399-9dbe5a926bd1
