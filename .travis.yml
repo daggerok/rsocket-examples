@@ -25,6 +25,8 @@ addons:
       - python3-pip
       - python3-six
       - python3-setuptools
+      # scala-rsocket:
+      - libhsdis0-fcml
 dist: xenial
 python: 3
 before_install:
@@ -44,11 +46,27 @@ before_install:
   # wait_for / stop_any
   - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
   - stop_any 80 1234 8080 5432
+  # scala-rsocket:
+  - ulimit -c unlimited
 #before_script:
 #  - ./gradlew --stop || echo 'oops...'
 #  - killall -9 java || echo 'oops'
 jobs:
   include:
+## fucking travis doesn't worked...
+#    - stage: test
+#      jdk: openjdk8
+#      name: test scala-rsocket
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/scala-rsocket && ./sbtw clean compile
+#        - ( cd $TRAVIS_BUILD_DIR/scala-rsocket && ./sbtw "runMain com.github.daggerok.scalarsocket.Server" & )
+#        - sleep 5s
+#        - ./sbtw  "runMain com.github.daggerok.scalarsocket.Client"
+#        - stop_any 7878
+#    - stage: test
+#      jdk: openjdk11
+#      name: test scala-rsocket openjdk11
+#      script: cd $TRAVIS_BUILD_DIR/scala-rsocket && ./sbtw clean compile ; (./sbtw "runMain com.github.daggerok.scalarsocket.Server" &) ; sleep 3s ; ./sbtw "runMain com.github.daggerok.scalarsocket.Client"
     - stage: test
       jdk: openjdk8
       name: test es-rsocket maven
@@ -173,5 +191,7 @@ cache:
   directories:
     - ~/.gradle
     - ~/.m2
+    - ~/.ivy
+    - ~/.sbt
   packages: true
   pip: true
