@@ -19,7 +19,7 @@ object Globals {
 
     object Plugin {
       const val lombokVersion = "3.1.0"
-      const val versionsVersion = "0.21.0"
+      const val versionsVersion = "0.25.0"
       const val springBootVersion = "2.2.0.M3"
       const val dependencyManagementVersion = "1.0.7.RELEASE"
     }

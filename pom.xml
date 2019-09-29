@@ -7,30 +7,35 @@
     <module>rsocket-java-example</module>
     <module>spring-webflux-rsocker-example</module>
     <module>rsocket-playground</module>
+    <module>rsocket-gateway</module>
   </modules>
-
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.daggerok</groupId>
   <artifactId>rsocket-examples</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
-    <rsocket.version>0.12.2-RC3</rsocket.version>
-
-    <vavr.version>0.10.0</vavr.version>
-    <cdi-api.version>2.0</cdi-api.version>
-    <lombok.version>1.18.8</lombok.version>
-    <kotlin.version>1.3.31</kotlin.version>
-    <jandex.version>2.1.1.Final</jandex.version>
-    <slf4j-api.version>1.7.26</slf4j-api.version>
-    <weld-se-core.version>3.1.1.Final</weld-se-core.version>
     <logback-classic.version>1.2.3</logback-classic.version>
-    <junit-jupiter.version>5.5.0-RC1</junit-jupiter.version>
-    <assertj.version>3.12.2</assertj.version>
-    <assertk.version>0.13</assertk.version>
+    <!--<logback-classic.version>1.3.0-alpha4</logback-classic.version>-->
+
+    <vavr.version>0.10.2</vavr.version>
+    <cdi-api.version>2.0</cdi-api.version>
+    <kotlin.version>1.3.50</kotlin.version>
+    <assertk.version>0.20</assertk.version>
+    <lombok.version>1.18.10</lombok.version>
+    <assertj.version>3.13.2</assertj.version>
     <junit4.version>4.13-beta-3</junit4.version>
+    <jandex.version>2.1.1.Final</jandex.version>
+    <rsocket.version>0.12.2-RC3</rsocket.version>
+    <slf4j-api.version>1.7.26</slf4j-api.version>
+    <junit-jupiter.version>5.5.2</junit-jupiter.version>
+    <weld-se-core.version>3.1.2.Final</weld-se-core.version>
+    <maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
+    <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
 
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -39,6 +44,7 @@
     <encoding>UTF-8</encoding>
     <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
     <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+    <log4j-bom.version>2.12.1</log4j-bom.version>
   </properties>
 
   <dependencyManagement>
@@ -165,25 +171,25 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>${maven-compiler-plugin.version}</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M3</version>
+          <version>${maven-surefire-plugin.version}</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>${maven-assembly-plugin.version}</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>${maven-shade-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -281,5 +287,36 @@
       </plugin>
     </plugins>
   </build>
+
+  <repositories>
+    <!--<repository>
+      <id>spring-snapshots</id>
+      <name>Spring Snapshots</name>
+      <url>https://repo.spring.io/snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>-->
+    <repository>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/milestone</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <!--<pluginRepository>
+      <id>spring-snapshots</id>
+      <name>Spring Snapshots</name>
+      <url>https://repo.spring.io/snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>-->
+    <pluginRepository>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/milestone</url>
+    </pluginRepository>
+  </pluginRepositories>
 
 </project>

@@ -2,7 +2,7 @@ notifications:
   email: false
 git:
   quiet: true
-  depth: 1
+  depth: false
 env:
   global:
     - TERM=dumb
@@ -53,7 +53,20 @@ before_install:
 #  - killall -9 java || echo 'oops'
 jobs:
   include:
-## fucking travis doesn't worked...
+    - stage: test
+      jdk: openjdk11
+      name: rsiocket-gateway jdk11
+      script:
+        - cd $TRAVIS_BUILD_DIR && ./mvnw -f ./rsocket-gateway/pom.xml clean package
+        - bash $TRAVIS_BUILD_DIR/rsocket-gateway/rsocket-messages-service/*.jar &
+        - wait_for 8080
+        - http post :8000/actuator/shutdown
+        - stop_any 80 8080
+    - stage: test
+      jdk: openjdk8
+      name: rsiocket-gateway jdk8
+      script: cd $TRAVIS_BUILD_DIR && ./mvnw -f ./rsocket-gateway/pom.xml clean package
+  ## fucking travis doesn't worked...
 #    - stage: test
 #      jdk: openjdk8
 #      name: test scala-rsocket
@@ -187,6 +200,9 @@ jobs:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
                  $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
+before_cache:
+- find ~/.gradle -name '*.lock' -type f             -print0 | xargs -0 rm -v -rf '{}'
+- find ~/.gradle -name 'plugin-resolution' -type d  -print0 | xargs -0 rm -v -rf '{}'
 cache:
   directories:
     - ~/.gradle

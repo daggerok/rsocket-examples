@@ -13,7 +13,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.daggerok</groupId>
   <artifactId>rsocket-playground</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1.1-SNAPSHOT</version>
 
   <properties>
     <java.version>1.8</java.version>
@@ -25,15 +25,15 @@
     <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 
     <!-- mvn versions:display-property-updates -->
-    <vavr.version>0.10.0</vavr.version>
+    <vavr.version>0.10.2</vavr.version>
     <junit.version>4.13-beta-3</junit.version>
     <rsocket.version>0.12.2-RC3</rsocket.version>
-    <junit-jupiter.version>5.5.0-RC1</junit-jupiter.version>
-    <spring-boot.version>${project.parent.version}</spring-boot.version>
-    <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
-    <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
-    <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
+    <junit-jupiter.version>5.5.2</junit-jupiter.version>
     <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
+    <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
+    <spring-boot.version>${project.parent.version}</spring-boot.version>
+    <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
   </properties>
 
   <dependencyManagement>

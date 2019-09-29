@@ -40,7 +40,7 @@ class RSocketCfg {
 
   @Bean
   RSocketRequester rSocketRequester(RSocketStrategies strategies) {
-    return RSocketRequester.create(rSocket(), MimeTypeUtils.APPLICATION_JSON, strategies);
+    return RSocketRequester.wrap(rSocket(), MimeTypeUtils.APPLICATION_JSON, strategies);
   }
 }
 
