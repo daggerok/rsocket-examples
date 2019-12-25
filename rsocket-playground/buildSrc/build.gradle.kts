@@ -13,3 +13,7 @@ idea {
     isDownloadSources = false
   }
 }
+
+kotlinDslPluginOptions {
+  experimentalWarning.set(false)
+}

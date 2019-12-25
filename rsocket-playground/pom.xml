@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.0.M3</version>
+    <version>2.2.0.RELEASE</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -27,7 +27,7 @@
     <!-- mvn versions:display-property-updates -->
     <vavr.version>0.10.2</vavr.version>
     <junit.version>4.13-beta-3</junit.version>
-    <rsocket.version>0.12.2-RC3</rsocket.version>
+    <rsocket.version>1.0.0-RC3</rsocket.version>
     <junit-jupiter.version>5.5.2</junit-jupiter.version>
     <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
