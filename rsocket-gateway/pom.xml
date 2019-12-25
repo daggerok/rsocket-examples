@@ -21,9 +21,9 @@
     </modules>
 
     <properties>
-        <rsocket.version>1.0.0-RC3</rsocket.version>
-        <spring-boot.version>2.2.0.M6</spring-boot.version>
-        <spring-cloud.version>Hoxton.M2</spring-cloud.version>
+        <rsocket.version>1.0.0-RC5</rsocket.version>
+        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
     </properties>
 
     <dependencyManagement>
