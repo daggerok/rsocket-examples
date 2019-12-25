@@ -2,7 +2,6 @@ import org.gradle.api.JavaVersion
 
 object Globals {
   object Project {
-    const val artifactId = "rsocket-playground"
     const val groupId = "com.github.daggerok"
     const val version = "1.0-SNAPSHOT"
   }
@@ -11,7 +10,8 @@ object Globals {
   const val vavrVersion = "0.10.0"
   const val lombokVersion = "1.18.8"
   const val junitVersion = "4.13-beta-3"
-  const val rsocketVersion = "0.12.2-RC3"
+  // const val rsocketVersion = "0.12.2-RC3"
+  const val rsocketVersion = "1.0.0-RC3"
   const val junitJupiterVersion = "5.5.0-RC1"
 
   object Gradle {
@@ -20,8 +20,8 @@ object Globals {
     object Plugin {
       const val lombokVersion = "3.1.0"
       const val versionsVersion = "0.25.0"
-      const val springBootVersion = "2.2.0.M3"
-      const val dependencyManagementVersion = "1.0.7.RELEASE"
+      const val springBootVersion = "2.2.0.RELEASE"
+      const val dependencyManagementVersion = "1.0.8.RELEASE"
     }
   }
 }

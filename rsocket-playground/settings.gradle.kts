@@ -1,4 +1,4 @@
-rootProject.name = Globals.Project.artifactId
+rootProject.name = "rsocket-playground"
 pluginManagement {
   repositories {
     gradlePluginPortal()
