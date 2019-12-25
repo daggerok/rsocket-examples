@@ -6,12 +6,11 @@ pluginManagement {
     //maven { url = uri("https://repo.spring.io/snapshot/") }
     mavenCentral()
   }
-  resolutionStrategy {
-    eachPlugin {
-      if (requested.id.id == "org.springframework.boot") {
-        useModule("org.springframework.boot:spring-boot-gradle-plugin:${requested.version}")
-      }
-    }
+  plugins {
+    id("io.franzbecker.gradle-lombok") version "3.2.0" apply false
+    id("com.github.ben-manes.versions") version "0.25.0" apply false
+    id("org.springframework.boot") version "2.2.0.RELEASE" apply false
+    id("io.spring.dependency-management") version "1.0.8.RELEASE" apply false
   }
 }
 include(
