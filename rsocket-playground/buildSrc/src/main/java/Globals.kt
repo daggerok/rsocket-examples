@@ -12,7 +12,7 @@ object Globals {
   const val junitVersion = "4.13-beta-3"
   // const val rsocketVersion = "0.12.2-RC3"
   const val rsocketVersion = "1.0.0-RC3"
-  const val junitJupiterVersion = "5.5.0-RC1"
+  const val junitJupiterVersion = "5.5.2"
 
   object Gradle {
     const val wrapperVersion = "5.5-rc-2"
