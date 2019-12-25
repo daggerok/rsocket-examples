@@ -7,10 +7,10 @@ pluginManagement {
     mavenCentral()
   }
   plugins {
-    id("io.franzbecker.gradle-lombok") version "3.2.0" apply false
-    id("com.github.ben-manes.versions") version "0.25.0" apply false
-    id("org.springframework.boot") version "2.2.0.RELEASE" apply false
-    id("io.spring.dependency-management") version "1.0.8.RELEASE" apply false
+    id("io.franzbecker.gradle-lombok") version "3.2.0"
+    id("com.github.ben-manes.versions") version "0.27.0"
+    id("org.springframework.boot") version "2.2.2.RELEASE"
+    id("io.spring.dependency-management") version "1.0.8.RELEASE"
   }
 }
 include(

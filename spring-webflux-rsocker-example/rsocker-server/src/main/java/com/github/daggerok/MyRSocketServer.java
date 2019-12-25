@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import reactor.core.publisher.Mono;
 
 import static java.lang.String.format;
 import static java.time.Instant.now;
@@ -29,12 +31,12 @@ class MyResponse {
   }
 }
 
-@RestController
+@Controller
 class MyResource {
 
   @MessageMapping("hello")
-  public MyResponse hello(MyRequest request) {
-    return new MyResponse(request.getPayload());
+  Mono<MyResponse> hello(@RequestBody MyRequest request) {
+    return Mono.just(new MyResponse(request.getPayload()));
   }
 }
 

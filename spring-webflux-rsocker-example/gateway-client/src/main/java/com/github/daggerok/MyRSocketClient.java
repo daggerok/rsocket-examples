@@ -1,9 +1,5 @@
 package com.github.daggerok;
 
-import io.rsocket.RSocket;
-import io.rsocket.RSocketFactory;
-import io.rsocket.frame.decoder.PayloadDecoder;
-import io.rsocket.transport.netty.client.TcpClientTransport;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,93 +16,73 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
+
+import java.time.Duration;
 
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
-import static reactor.core.scheduler.Schedulers.elastic;
 
 @Configuration
 class RSocketCfg {
 
-  @Bean
-  RSocket rSocket() {
-    return RSocketFactory.connect()
-                         .dataMimeType(MimeTypeUtils.APPLICATION_JSON_VALUE)
-                         .frameDecoder(PayloadDecoder.ZERO_COPY)
-                         .transport(TcpClientTransport.create(1234))
-                         .start()
-                         .subscribeOn(elastic())
-                         .block();
-  }
-
-  @Bean
-  RSocketRequester rSocketRequester(RSocketStrategies strategies) {
-    return RSocketRequester.wrap(rSocket(),
-                                 MimeTypeUtils.APPLICATION_JSON,
-                                 MimeTypeUtils.APPLICATION_JSON,
-                                 strategies);
-  }
+    @Bean
+    Mono<RSocketRequester> rSocketRequester(RSocketStrategies strategies, RSocketRequester.Builder builder) {
+        Scheduler scheduler = Schedulers.elastic();
+        return builder.rsocketStrategies(strategies)
+                      .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
+                      //.metadataMimeType(MimeTypeUtils.APPLICATION_JSON) // FIXME: WARNING: DON'T DO THIS!
+                      .connectTcp("127.0.0.1", 1234)
+                      .retryBackoff(2, Duration.ofSeconds(2))
+                      .subscribeOn(scheduler)
+                      .publishOn(scheduler);
+    }
 }
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 class MyRequest {
-  private String payload;
+    private String payload;
 }
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 class MyResponse {
-  private String data;
+    private String data;
 }
-
-//@RestController
-//@RequiredArgsConstructor
-//@RequestMapping("/api/v1")
-//class MyResource {
-//
-//  private final RSocketRequester rs;
-//
-//  @GetMapping("/hello/{name}")
-//  Mono<MyResponse> hello(@PathVariable(name = "name", required = false) Optional<String> maybeName) {
-//    String name = maybeName.orElse("Buddy");
-//    return rs.route("hello")
-//             .data(new MyRequest(name))
-//             .retrieveMono(MyResponse.class)
-//             .subscribeOn(elastic());
-//  }
-//}
 
 @Service
 @RequiredArgsConstructor
 class MyHandlers {
 
-  private final RSocketRequester rs;
+    private final Mono<RSocketRequester> rs;
 
-  public Mono<ServerResponse> hello(ServerRequest request) {
-    String name = request.pathVariable("name");
-    return ServerResponse.ok()
-                         .body(rs.route("hello")
-                                 .data(new MyRequest(name))
-                                 .retrieveMono(MyResponse.class), MyResponse.class);
-  }
+    public Mono<ServerResponse> hello(ServerRequest request) {
+        String name = request.pathVariable("name");
+        return ServerResponse.ok()
+                             .body(rs.flatMap(rr -> rr.route("hello")
+                                                      .data(Mono.just(new MyRequest(name)))
+                                                      .retrieveMono(MyResponse.class)),
+                                   MyResponse.class);
+    }
 }
 
 @Configuration
 class MyRSocketRoutes {
 
-  @Bean
-  RouterFunction<ServerResponse> routes(MyHandlers myHandlers) {
-    return route().GET("/api/v1/hello/{name}", myHandlers::hello)
-                  .build();
-  }
+    @Bean
+    RouterFunction<ServerResponse> routes(MyHandlers myHandlers) {
+        return route().GET("/api/v1/hello/{name}", myHandlers::hello)
+                      .build();
+    }
 }
 
 @SpringBootApplication
 public class MyRSocketClient {
 
-  public static void main(String[] args) {
-    SpringApplication.run(MyRSocketClient.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(MyRSocketClient.class, args);
+    }
 }
