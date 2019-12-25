@@ -8,49 +8,36 @@ env:
     - TERM=dumb
 language: java
 jdk: openjdk8
+python: 3.7
+os: linux
+arch: amd64
 install: true
 addons:
   apt:
     update: true
     packages:
-      - jq
-      - sudo
-      - lsof
-      - wget
-      - bash
       - curl
-      - unzip
-      - zip
-      - python3-dev
       - python3-pip
-      - python3-six
-      - python3-setuptools
-      # scala-rsocket:
       - libhsdis0-fcml
-dist: xenial
-python: 3
 before_install:
   - export PATH=$HOME/.local/bin:$PATH
-  - pip3 install --user $(whoami) --upgrade pip >/dev/null # pip3 -> pip
-  - pip install --user $(whoami) --upgrade docker-compose httpie >/dev/null 2>&1
-  - http --version --debug
-  - docker-compose -v
-  #- export CHROME_BIN=/usr/bin/google-chrome
-  #- export DISPLAY=:99.0
-  #- sh -e /etc/init.d/xvfb start
-  # gradle
-  - curl -s "https://get.sdkman.io" | bash
-  - sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
-  - source "$HOME/.sdkman/bin/sdkman-init.sh"
-  - sdk use gradle 5.5-rc-2
-  # wait_for / stop_any
-  - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+  - pip3 install --user --upgrade pip setuptools
+  - pip  install --user --upgrade docker-compose httpie
+  - docker-compose version
+  - |
+    if [ ! -f ${HOME}/.local/daggerok/bash-functions/master/main.bash ] ; then
+      mkdir -p ${HOME}/.local/daggerok/bash-functions/master
+      curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ${HOME}/.local/daggerok/bash-functions/master/main.bash
+    fi
+    source ~/.local/daggerok/bash-functions/master/main.bash
   - stop_any 80 1234 8080 5432
   # scala-rsocket:
   - ulimit -c unlimited
-#before_script:
-#  - ./gradlew --stop || echo 'oops...'
-#  - killall -9 java || echo 'oops'
+  ## gradle
+  #- curl -s "https://get.sdkman.io" | bash
+  #- sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
+  #- source "$HOME/.sdkman/bin/sdkman-init.sh"
+  #- sdk use gradle 5.5-rc-2
 jobs:
   include:
     - stage: test
@@ -63,7 +50,6 @@ jobs:
         - http post :8000/actuator/shutdown
         - stop_any 80 8080
     - stage: test
-      jdk: openjdk8
       name: rsiocket-gateway jdk8
       script: cd $TRAVIS_BUILD_DIR && ./mvnw -f ./rsocket-gateway/pom.xml clean package
   ## fucking travis doesn't worked...
@@ -81,7 +67,6 @@ jobs:
 #      name: test scala-rsocket openjdk11
 #      script: cd $TRAVIS_BUILD_DIR/scala-rsocket && ./sbtw clean compile ; (./sbtw "runMain com.github.daggerok.scalarsocket.Server" &) ; sleep 3s ; ./sbtw "runMain com.github.daggerok.scalarsocket.Client"
     - stage: test
-      jdk: openjdk8
       name: test es-rsocket maven
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/es-rsocket/es-server/src/main/resources/logback-maven.xml
@@ -98,7 +83,6 @@ jobs:
         - http --stream :8080/api/v1/stream-commands/83e24ff7-38fb-4d55-9399-9dbe5a926bd1
         - stop_any 12345 8080 80
     - stage: test
-      jdk: openjdk8
       name: test es-rsocket gradle
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/es-rsocket/es-server/src/main/resources/logback-gradle.xml
@@ -115,7 +99,6 @@ jobs:
         - http --stream :8080/api/v1/stream-commands/83e24ff7-38fb-4d55-9399-9dbe5a926bd1
         - stop_any 12345 8080 80
     - stage: test
-      jdk: openjdk8
       name: "Maven updates"
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-maven.xml
@@ -124,7 +107,6 @@ jobs:
         - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -f ./spring-webflux-rsocker-example/pom.xml
         - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -f ./rsocket-playground/pom.xml
     - stage: test
-      jdk: openjdk8
       name: "Gradle updates"
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
@@ -134,7 +116,6 @@ jobs:
         - cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release -b spring-webflux-rsocker-example/build.gradle.kts --no-daemon
         - cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release -b rsocket-playground/build.gradle.kts
     - stage: test
-      jdk: openjdk8
       name: "Maven rsocker-java-example"
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-maven.xml
@@ -142,7 +123,6 @@ jobs:
         - cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-java-example package
         - java -jar rsocket-java-example/target/rsocket-java-example-*-SNAPSHOT-all.jar
     - stage: test
-      jdk: openjdk8
       name: "Gradle rsocker-java-example"
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
@@ -150,7 +130,6 @@ jobs:
         - cd $TRAVIS_BUILD_DIR && ./gradlew rsocket-java-example:fatJar
         - java -jar rsocket-java-example/build/libs/rsocket-java-example-*-SNAPSHOT-all.jar
     - stage: test
-      jdk: openjdk8
       name: "Maven spring-webflux-rsocker-example"
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-maven.xml
@@ -162,7 +141,6 @@ jobs:
         - curl -sS 127.0.0.1:8080/api/v1/hello/max | jq '.'
         - stop_any 80 1234 8080
     - stage: test
-      jdk: openjdk8
       name: "Gradle spring-webflux-rsocker-example"
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
@@ -174,14 +152,12 @@ jobs:
         - curl -sS 127.0.0.1:8080/api/v1/hello/max | jq '.'
         - stop_any 80 1234 8080
     - stage: test
-      jdk: openjdk8
       name: "Maven rsocket-playground"
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-maven.xml
                  $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-playground
     - stage: test
-      jdk: openjdk8
       name: "Gradle rsocket-playground"
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
@@ -194,20 +170,20 @@ jobs:
       name: "Maven rsocket-playground"
       script: cd $TRAVIS_BUILD_DIR && ./mvnw -pl :rsocket-playground
     - stage: test
-      jdk: openjdk11
       name: "Gradle rsocket-playground"
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback-gradle.xml
                  $TRAVIS_BUILD_DIR/rsocket-playground/src/main/resources/logback.xml
         - cd $TRAVIS_BUILD_DIR && ./gradlew -b ./rsocket-playground/build.gradle.kts
 before_cache:
-- find ~/.gradle -name '*.lock' -type f             -print0 | xargs -0 rm -v -rf '{}'
-- find ~/.gradle -name 'plugin-resolution' -type d  -print0 | xargs -0 rm -v -rf '{}'
+  - find ~/.gradle -name '*.lock' -type f             -print0 | xargs -0 rm -v -rf '{}'
+  - find ~/.gradle -name 'plugin-resolution' -type d  -print0 | xargs -0 rm -v -rf '{}'
 cache:
-  directories:
-    - ~/.gradle
-    - ~/.m2
-    - ~/.ivy
-    - ~/.sbt
-  packages: true
   pip: true
+  packages: true
+  directories:
+    - ~/.local/daggerok
+    - ~/.gradle
+    - ~/.sbt
+    - ~/.ivy
+    - ~/.m2
