@@ -47,7 +47,7 @@ jobs:
         - cd $TRAVIS_BUILD_DIR && ./mvnw -f rsocket-gateway clean package
         - bash $TRAVIS_BUILD_DIR/rsocket-gateway/rsocket-messages-service/target/*.jar &
         - wait_for 8080
-        - http post :8000/actuator/shutdown
+        - http post :8080/actuator/shutdown
         - stop_any 80 8080
     - stage: test
       name: rsiocket-gateway jdk8
