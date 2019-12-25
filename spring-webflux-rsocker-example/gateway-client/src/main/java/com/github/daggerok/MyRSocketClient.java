@@ -1,5 +1,6 @@
 package com.github.daggerok;
 
+import io.rsocket.transport.netty.client.TcpClientTransport;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ class RSocketCfg {
         return builder.rsocketStrategies(strategies)
                       .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
                       //.metadataMimeType(MimeTypeUtils.APPLICATION_JSON) // FIXME: WARNING: DON'T DO THIS!
-                      .connectTcp("127.0.0.1", 1234)
+                      .connect(TcpClientTransport.create(1234))
                       .retryBackoff(2, Duration.ofSeconds(2))
                       .subscribeOn(scheduler)
                       .publishOn(scheduler);
