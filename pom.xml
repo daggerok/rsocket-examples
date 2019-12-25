@@ -30,6 +30,7 @@
     <jandex.version>2.1.1.Final</jandex.version>
     <rsocket.version>0.12.2-RC3</rsocket.version>
     <slf4j-api.version>1.7.26</slf4j-api.version>
+    <log4j-bom.version>2.12.1</log4j-bom.version>
     <junit-jupiter.version>5.5.2</junit-jupiter.version>
     <weld-se-core.version>3.1.2.Final</weld-se-core.version>
     <maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
@@ -44,7 +45,6 @@
     <encoding>UTF-8</encoding>
     <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
     <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
-    <log4j-bom.version>2.12.1</log4j-bom.version>
   </properties>
 
   <dependencyManagement>
