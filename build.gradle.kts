@@ -1,12 +1,9 @@
-import org.gradle.api.tasks.testing.logging.TestLogEvent.*
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
   java
-  kotlin("jvm") version "1.3.50"
-  kotlin("plugin.spring") version "1.3.50"
-  id("io.franzbecker.gradle-lombok") version "3.2.0"
-  id("com.github.ben-manes.versions") version "0.25.0"
+  kotlin("jvm")
+  kotlin("plugin.spring")
+  id("io.franzbecker.gradle-lombok")
+  id("com.github.ben-manes.versions")
 }
 
 tasks.withType(Wrapper::class.java) {
@@ -31,7 +28,7 @@ allprojects {
   }
 
   apply(plugin = "kotlin")
-  tasks.withType<KotlinCompile>().configureEach {
+  tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
       freeCompilerArgs += "-Xjsr305=strict"
       jvmTarget = "$javaVersion"
@@ -61,7 +58,7 @@ allprojects {
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-    testRuntime("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
   }
 
   tasks.withType<Test> {
@@ -69,7 +66,11 @@ allprojects {
     testLogging {
       showExceptions = true
       showStandardStreams = true
-      events(PASSED, SKIPPED, FAILED)
+      events(
+          org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
+          org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED,
+          org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
+      )
     }
   }
 }

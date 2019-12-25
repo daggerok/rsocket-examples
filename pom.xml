@@ -28,7 +28,8 @@
     <assertj.version>3.13.2</assertj.version>
     <junit4.version>4.13-beta-3</junit4.version>
     <jandex.version>2.1.1.Final</jandex.version>
-    <rsocket.version>0.12.2-RC3</rsocket.version>
+    <!--<rsocket.version>0.12.2-RC3</rsocket.version>-->
+    <rsocket.version>1.0.0-RC5</rsocket.version>
     <slf4j-api.version>1.7.26</slf4j-api.version>
     <log4j-bom.version>2.12.1</log4j-bom.version>
     <junit-jupiter.version>5.5.2</junit-jupiter.version>
