@@ -1,14 +1,17 @@
 # rsocket-examples [![Build Status](https://travis-ci.org/daggerok/rsocket-examples.svg?branch=master)](https://travis-ci.org/daggerok/rsocket-examples)
 Java RSockert client
 
-* [WebFlux RSocket CQRS app](https://github.com/daggerok/webflux-rsocket-cqrs-app)
 * [RSocket spring-mvc style communication](./es-rsocket/)
 * [Java plain RSocket](./rsocket-java-example/)
 * [RSocket with Spring Boot](./spring-webflux-rsocker-example/)
 
+## other repositories
+
+* [WebFlux RSocket CQRS app](https://github.com/daggerok/webflux-rsocket-cqrs-app)
+
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
 
-resources:
+## resources
 
 - see [GitHub: rsocket/rsocket-java](https://github.com/rsocket/rsocket-java)
 <!--
