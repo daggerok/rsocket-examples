@@ -7,16 +7,16 @@ Java RSockert client
 
 ## other repositories
 
-* [WebFlux RSocket CQRS app](https://github.com/daggerok/webflux-rsocket-cqrs-app)
+- [WebFlux RSocket CQRS app GitHub: daggerok/webflux-rsocket-cqrs-app](https://github.com/daggerok/webflux-rsocket-cqrs-app)
 
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
 
 ## resources
 
-- see [GitHub: rsocket/rsocket-java](https://github.com/rsocket/rsocket-java)
+- [GitHub: rsocket/rsocket-java](https://github.com/rsocket/rsocket-java)
 <!--
 - read [Weld SE](https://docs.jboss.org/weld/reference/3.1.2.Final/en-US/html_single/#weld-se)
 -->
-- see [YouTube: Multi-Service Reactive Streams Using Spring, Reactor, and RSocket](https://www.youtube.com/watch?v=e-N4BchYXws&t=5s)
-- see [YouTube: Spring Tips: RSocket Messaging in Spring Boot 2.2](https://www.youtube.com/watch?v=BxHqeq58xrE)
-- see [YouTube: Spring Tips: RSocket](https://www.youtube.com/watch?time_continue=1617&v=GDIDSzZLjjg)
+- [YouTube: Multi-Service Reactive Streams Using Spring, Reactor, and RSocket](https://www.youtube.com/watch?v=e-N4BchYXws&t=5s)
+- [YouTube: Spring Tips: RSocket Messaging in Spring Boot 2.2](https://www.youtube.com/watch?v=BxHqeq58xrE)
+- [YouTube: Spring Tips: RSocket](https://www.youtube.com/watch?time_continue=1617&v=GDIDSzZLjjg)
