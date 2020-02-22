@@ -8,7 +8,8 @@ env:
     - TERM=dumb
 language: java
 jdk: openjdk8
-python: 3.7
+python: 3.8
+node_js: lts/*
 os: linux
 arch: amd64
 install: true
@@ -17,13 +18,11 @@ addons:
     update: true
     packages:
       - curl
-      - python3-pip
+      - httpie
+      - docker-ce
+      - docker-compose
       - libhsdis0-fcml
 before_install:
-  - export PATH=$HOME/.local/bin:$PATH
-  - pip3 install --user --upgrade pip setuptools
-  - pip  install --user --upgrade docker-compose httpie
-  - docker-compose version
   - |
     if [ ! -f ${HOME}/.local/daggerok/bash-functions/master/main.bash ] ; then
       mkdir -p ${HOME}/.local/daggerok/bash-functions/master
@@ -38,15 +37,24 @@ before_install:
   #- sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
   #- source "$HOME/.sdkman/bin/sdkman-init.sh"
   #- sdk use gradle 5.5-rc-2
+  - npm i -g wait-port
 jobs:
   include:
+    - stage: test
+      jdk: openjdk11
+      name: gradle rsocket-protobuf jdk11
+      script: cd $TRAVIS_BUILD_DIR && ./gradlew -p rsocket-protobuf
+    - stage: test
+      jdk: openjdk11
+      name: maven rsocket-protobuf jdk11
+      script: cd $TRAVIS_BUILD_DIR && ./mvnw -f rsocket-protobuf
     - stage: test
       jdk: openjdk11
       name: rsiocket-gateway jdk11
       script:
         - cd $TRAVIS_BUILD_DIR && ./mvnw -f rsocket-gateway clean package
         - bash $TRAVIS_BUILD_DIR/rsocket-gateway/rsocket-messages-service/target/*.jar &
-        - wait_for 8080
+        - wait-port 8080
         - http post :8080/actuator/shutdown
         - stop_any 80 8080
     - stage: test
@@ -179,7 +187,7 @@ before_cache:
   - find ~/.gradle -name '*.lock' -type f             -print0 | xargs -0 rm -v -rf '{}'
   - find ~/.gradle -name 'plugin-resolution' -type d  -print0 | xargs -0 rm -v -rf '{}'
 cache:
-  pip: true
+  npm: true
   packages: true
   directories:
     - ~/.local/daggerok
@@ -187,3 +195,5 @@ cache:
     - ~/.sbt
     - ~/.ivy
     - ~/.m2
+    - ~/.n*
+    - ~/.p*

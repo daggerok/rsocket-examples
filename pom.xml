@@ -8,6 +8,7 @@
     <module>spring-webflux-rsocker-example</module>
     <module>rsocket-playground</module>
     <module>rsocket-gateway</module>
+    <module>rsocket-protobuf</module>
   </modules>
 
   <modelVersion>4.0.0</modelVersion>

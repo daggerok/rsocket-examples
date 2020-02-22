@@ -60,7 +60,6 @@ allprojects {
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
   }
-
   tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
@@ -75,4 +74,4 @@ allprojects {
   }
 }
 
-defaultTasks("clean", "sources", "fatJar", "installDist", "distZip", "distTar", "test")
+defaultTasks("clean", "fatJar", "installDist", "distZip", "distTar", "test")
