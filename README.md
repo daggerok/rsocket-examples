@@ -1,4 +1,4 @@
-# rsocket-examples [![Build Status](https://travis-ci.org/daggerok/rsocket-examples.svg?branch=master)](https://travis-ci.org/daggerok/rsocket-examples)
+# rsocket-examples [![Build Status](https://travis-ci.org/daggerok/rsocket-examples.svg?branch=master)](https://travis-ci.org/daggerok/rsocket-examples) [![CI](https://github.com/daggerok/rsocket-examples/workflows/CI/badge.svg)](https://github.com/daggerok/rsocket-examples/actions)
 RSocket!
 
 * [TODO: RSocket + Protobuf client-server communication](./rsocket-protobuf/)
