@@ -50,15 +50,12 @@ allprojects {
 
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
-    testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
     testImplementation("junit:junit:$junit4Version")
-    testImplementation("com.willowtreeapps.assertk:assertk-jvm:$assertkVersion")
-    testImplementation("org.assertj:assertj-core:$assertjVersion")
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
+    testImplementation("org.assertj:assertj-core:$assertjVersion")
+    testImplementation("com.willowtreeapps.assertk:assertk-jvm:$assertkVersion")
   }
   tasks.withType<Test> {
     useJUnitPlatform()
