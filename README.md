@@ -8,6 +8,7 @@ RSocket!
 
 ## other repositories
 
+- [GitHub: daggerok/rsocket-proto](https://github.com/daggerok/rsocket-proto/)
 - [GitHub: daggerok/from-zero-to-reactive-cloud-micro-hero](https://github.com/daggerok/from-zero-to-reactive-cloud-micro-hero)
 - [GitHub: daggerok/reactive-spring-k8s](https://github.com/daggerok/reactive-spring-k8s)
 - [GitHub: daggerok/k8s-ingress-explained](https://github.com/daggerok/k8s-ingress-explained)
