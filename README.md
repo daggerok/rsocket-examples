@@ -1,10 +1,16 @@
 # rsocket-examples [![Build Status](https://travis-ci.org/daggerok/rsocket-examples.svg?branch=master)](https://travis-ci.org/daggerok/rsocket-examples) [![CI](https://github.com/daggerok/rsocket-examples/workflows/CI/badge.svg)](https://github.com/daggerok/rsocket-examples/actions)
 RSocket!
 
+## modules
+
 * [TODO: RSocket + Protobuf client-server communication](./rsocket-protobuf/)
 * [RSocket spring-mvc style communication](./es-rsocket/)
 * [Java plain RSocket](./rsocket-java-example/)
 * [RSocket with Spring Boot](./spring-webflux-rsocker-example/)
+
+## TODO
+
+* [Implement file transfer using RSocket protocol](https://github.com/rsocket/rsocket-java/tree/master/rsocket-examples/src/main/java/io/rsocket/examples/transport/tcp/resume)
 
 ## other repositories
 
