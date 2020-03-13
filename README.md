@@ -11,6 +11,7 @@ RSocket!
 ## TODO
 
 * [Implement file transfer using RSocket protocol](https://github.com/rsocket/rsocket-java/tree/master/rsocket-examples/src/main/java/io/rsocket/examples/transport/tcp/resume)
+* [Implement file transfer using RSocket protocol](https://github.com/rsocket/rsocket-java/commit/d47629147dd1a4d41c7c8d5af3d80838e01d3ba5)
 
 ## other repositories
 
