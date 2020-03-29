@@ -16,6 +16,8 @@ RSocket!
 
 ## other repositories
 
+- [GitHub: daggerok/spring-rsocket-test-containers-example](https://github.com/daggerok/spring-rsocket-test-containers-example)
+- [GitHub: daggerok/spring-cloud-gateway-rsocket-example](https://github.com/daggerok/spring-cloud-gateway-rsocket-example)
 - [GitHub: daggerok/rsocket-proto](https://github.com/daggerok/rsocket-proto/)
 - [GitHub: daggerok/from-zero-to-reactive-cloud-micro-hero](https://github.com/daggerok/from-zero-to-reactive-cloud-micro-hero)
 - [GitHub: daggerok/reactive-spring-k8s](https://github.com/daggerok/reactive-spring-k8s)
