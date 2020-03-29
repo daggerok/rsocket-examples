@@ -29,6 +29,7 @@ NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://gi
 
 ## resources
 
+- [YouTube: RSocket Messaging with Spring](youtube.com/watch?v=iSSrZoGtoSE)
 - https://dzone.com/articles/reactive-service-to-service-communication-with-rso-3
 - [GitHub: rsocket/rsocket-java](https://github.com/rsocket/rsocket-java)
 - [YouTube: Multi-Service Reactive Streams Using Spring, Reactor, and RSocket](https://www.youtube.com/watch?v=e-N4BchYXws&t=5s)
