@@ -3,6 +3,7 @@ RSocket!
 
 ## modules
 
+* https://github.com/bclozel/spring-flights (see: [YouTube: RSocket Messaging with Spring](youtube.com/watch?v=iSSrZoGtoSE))
 * [TODO: RSocket + Protobuf client-server communication](./rsocket-protobuf/)
 * [RSocket spring-mvc style communication](./es-rsocket/)
 * [Java plain RSocket](./rsocket-java-example/)
@@ -29,6 +30,7 @@ NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://gi
 
 ## resources
 
+- https://github.com/bclozel/spring-flights
 - [YouTube: RSocket Messaging with Spring](youtube.com/watch?v=iSSrZoGtoSE)
 - https://dzone.com/articles/reactive-service-to-service-communication-with-rso-3
 - [GitHub: rsocket/rsocket-java](https://github.com/rsocket/rsocket-java)
