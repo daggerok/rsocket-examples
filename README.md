@@ -11,6 +11,7 @@ RSocket!
 
 ## TODO
 
+* youtube.com/watch?v=iSSrZoGtoSE
 * [Implement file transfer using RSocket protocol 1](https://github.com/rsocket/rsocket-java/tree/master/rsocket-examples/src/main/java/io/rsocket/examples/transport/tcp/resume)
 * [Implement file transfer using RSocket protocol 2](https://github.com/rsocket/rsocket-java/commit/d47629147dd1a4d41c7c8d5af3d80838e01d3ba5)
 
@@ -32,6 +33,7 @@ NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://gi
 
 ## resources
 
+- youtube.com/watch?v=iSSrZoGtoSE
 - https://github.com/bclozel/spring-flights
 - [YouTube: RSocket Messaging with Spring](youtube.com/watch?v=iSSrZoGtoSE)
 - https://dzone.com/articles/reactive-service-to-service-communication-with-rso-3
