@@ -1,1 +1,8 @@
-./mvnw -f rsocket-plain-java-api
+test
+
+  ./mvnw -f rsocket-plain-java-api
+
+
+read:
+
+  https://www.codeflow.site/ru/article/rsocket
