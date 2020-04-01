@@ -36,11 +36,11 @@ class MyRequestStream extends AbstractRSocket {
 
 @Slf4j
 class MyServer {
-  Disposable listener;
+  final Disposable listener;
 
   MyServer() {
     listener = RSocketFactory.receive()
-                             .acceptor((setup, sendingSocket) -> Mono.just(new MyRequestStream()))
+                             .acceptor((setup, sendingSocket) -> Mono.just(MyRequestStream::new))
                              .transport(TcpServerTransport.create(7000))
                              .start()
                              .subscribe();
