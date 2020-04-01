@@ -7,7 +7,10 @@ import io.rsocket.RSocketFactory;
 import io.rsocket.transport.netty.client.TcpClientTransport;
 import io.rsocket.transport.netty.server.TcpServerTransport;
 import io.rsocket.util.DefaultPayload;
+import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
@@ -38,10 +41,10 @@ class MyRequestStream extends AbstractRSocket {
 class MyServer {
   final Disposable listener;
 
-  MyServer() {
+  MyServer(int port) {
     listener = RSocketFactory.receive()
                              .acceptor((setup, sendingSocket) -> Mono.just(new MyRequestStream()))
-                             .transport(TcpServerTransport.create(7000))
+                             .transport(TcpServerTransport.create(port))
                              .start()
                              .subscribe();
   }
@@ -50,10 +53,10 @@ class MyServer {
 class MyClient {
   final Mono<RSocket> requester;
 
-  MyClient() {
+  MyClient(int port) {
     requester = RSocketFactory.connect()
                               .keepAliveAckTimeout(Duration.ofSeconds(3))
-                              .transport(TcpClientTransport.create(7000))
+                              .transport(TcpClientTransport.create(port))
                               .start();
   }
 }
@@ -63,34 +66,52 @@ class SimpleTest {
 
   @Test
   void test() {
-    MyServer server = new MyServer();
-    MyClient client = new MyClient();
-    String payload = "Hello";
+    MyServer server = new MyServer(7001);
+    MyClient client = new MyClient(7001);
+    String payload = "Привет";
 
-    // no back pressure:
     StepVerifier.create(client.requester.flatMapMany(rr -> rr.requestStream(DefaultPayload.create(payload)))
-                                        .map(Payload::getDataUtf8))
-                // .expectNextMatches(s -> s.contains("Hello-"))
-                .expectNextCount(5)
+                                        .map(Payload::getDataUtf8)
+                                        .doOnEach(stringSignal -> log.info("client 1: {}", stringSignal.get())))
+                .expectNextCount(payload.length())
                 .verifyComplete();
+
+    server.listener.dispose();
+  }
+
+  @Test
+  void test_back_pressure() {
+    MyServer server = new MyServer(7002);
+    MyClient client = new MyClient(7002);
+    String payload = "Hello";
 
     // back-pressure: request only 2 items...
     StepVerifier.create(client.requester.flatMapMany(rr -> rr.requestStream(DefaultPayload.create(payload))
                                                              .take(2)) // back-pressure
-                                        .map(Payload::getDataUtf8))
+                                        .map(Payload::getDataUtf8)
+                                        .doOnEach(stringSignal -> log.info("client 2: {}", stringSignal.get())))
                 .expectNextMatches(s -> s.contains("Hello-0"))
                 .expectNextMatches(s -> s.endsWith("Hello-1"))
                 // .expectNextCount(2)
                 .verifyComplete();
 
-    // client.requester.flatMapMany(rr -> rr.requestStream(DefaultPayload.create(payload))
-    //                                      .take(2)) // back-pressure
-    //                 .map(Payload::getDataUtf8)
-    //                 .map(res -> assertThat(res).containsIgnoringCase("hello-"))
-    //                 .subscribe(s -> log.info("client: {}", s));
-    //
-    // io.vavr.control.Try.run(() -> Thread.sleep(payload.length() * 1234))
-    //                    .andFinally(server.listener::dispose);
     server.listener.dispose();
+  }
+
+  @Test
+  void yet_another() {
+    MyServer server = new MyServer(7003);
+    MyClient client = new MyClient(7003);
+    String payload = "Hola";
+
+    client.requester.flatMapMany(rr -> rr.requestStream(DefaultPayload.create(payload))
+                                         .take(2)) // back-pressure
+                    .map(Payload::getDataUtf8)
+                    .map(res -> assertThat(res).containsIgnoringCase("hola-"))
+                    .subscribe(s -> log.info("client 3: {}", s));
+
+    Try.run(() -> Thread.sleep(payload.length() * 1234))
+       .andFinally(server.listener::dispose)
+       .onFailure(throwable -> log.info("oops: {}", throwable.getLocalizedMessage()));
   }
 }
