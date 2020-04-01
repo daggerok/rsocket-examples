@@ -1,7 +1,28 @@
 name: CI
+
 on: [push]
 
 jobs:
+
+  rsocket-plain-java-api:
+    strategy:
+      matrix:
+        java: [11]
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    name: rsocket-plain-java-api on ${{ matrix.os }} and java-${{ matrix.java }}
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ matrix.os }}-maven-cache
+          restore-keys: |
+            ${{ matrix.os }}-maven-cache-
+      - run: ./mvnw -f rsocket-plain-java-api
 
   build-rsocket-protobuf-on-unix:
     strategy:
