@@ -9,6 +9,7 @@
     <module>rsocket-playground</module>
     <module>rsocket-gateway</module>
     <module>rsocket-protobuf</module>
+    <module>rsocket-plain-java-api</module>
   </modules>
 
   <modelVersion>4.0.0</modelVersion>
