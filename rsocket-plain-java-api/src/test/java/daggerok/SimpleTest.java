@@ -40,7 +40,7 @@ class MyServer {
 
   MyServer() {
     listener = RSocketFactory.receive()
-                             .acceptor((setup, sendingSocket) -> Mono.just(MyRequestStream::new))
+                             .acceptor((setup, sendingSocket) -> Mono.just(new MyRequestStream()))
                              .transport(TcpServerTransport.create(7000))
                              .start()
                              .subscribe();
