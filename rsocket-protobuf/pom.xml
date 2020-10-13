@@ -35,7 +35,7 @@
     <assertk.version>0.21</assertk.version>
     <lombok.version>1.18.12</lombok.version>
     <assertj.version>3.15.0</assertj.version>
-    <junit4.version>4.13</junit4.version>
+    <junit4.version>4.13.1</junit4.version>
     <rsocket.version>1.0.0-RC6</rsocket.version>
     <maven-shade-plugin.version>3.2.2</maven-shade-plugin.version>
   </properties>
