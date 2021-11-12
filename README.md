@@ -17,6 +17,7 @@ RSocket!
 
 ## other repositories
 
+- [GitHub: daggerok/rsocket-webflux-coroutines](https://github.com/daggerok/rsocket-webflux-coroutines)
 - [GitHub: daggerok/spring-rsocket-test-containers-example](https://github.com/daggerok/spring-rsocket-test-containers-example)
 - [GitHub: daggerok/spring-cloud-gateway-rsocket-example](https://github.com/daggerok/spring-cloud-gateway-rsocket-example)
 - [GitHub: daggerok/rsocket-proto](https://github.com/daggerok/rsocket-proto/)
